@@ -15,8 +15,17 @@ MainContentComponent::MainContentComponent()
     // specify the number of input and output channels that we want to open
     setAudioChannels (2, 2);
     
+    
+    addAndMakeVisible(&model);
+    
+    addAndMakeVisible(&group);
+    group.setText("Reverb Front End");
+    group.setColour(GroupComponent::outlineColourId, Colours::grey);
+    group.toFront(false);
+    
     addAndMakeVisible(&modeToggle);
     modeToggle.addListener(this);
+    modeToggle.setButtonText("Freeze");
     
     addAndMakeVisible(&roomSizeSlider);
     roomSizeSlider.addListener(this);
@@ -90,7 +99,6 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
     
     model.processreplace(inputs[0],inputs[1],outputs[0],outputs[1],bufferToFill.numSamples,1);
     
-    
 }
 
 void MainContentComponent::releaseResources()
@@ -105,12 +113,22 @@ void MainContentComponent::paint (Graphics& g)
 void MainContentComponent::resized()
 {
     
-    int sliderGap = 20;
-    int sliderWidth = 40;
-
+    Rectangle<int> areaModel(getLocalBounds());
+    areaModel.removeFromBottom(getHeight()/2);
+    areaModel.reduce(10, 10);
+    model.setBounds(areaModel);
+    
+    
     Rectangle<int> areaSliders(getLocalBounds());
+    areaSliders.removeFromTop(getHeight()/2);
+    
     areaSliders.reduce(10, 10);
-    areaSliders.removeFromTop(40);
+    group.setBounds(areaSliders);
+    areaSliders.reduce(10, 10);
+    areaSliders.removeFromTop(30);
+    
+    int sliderGap = 10;
+    int sliderWidth = areaSliders.getWidth()/6 - 10;
     modeToggle.setBounds(areaSliders.removeFromLeft(sliderWidth));
     areaSliders.removeFromLeft(sliderGap);
     roomSizeSlider.setBounds(areaSliders.removeFromLeft(sliderWidth));

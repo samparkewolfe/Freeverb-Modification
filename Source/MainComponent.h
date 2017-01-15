@@ -40,6 +40,8 @@ public Slider::Listener
     dryLabel,
     widthLabel;
     
+    GroupComponent group;
+    
 public:
     
     MainContentComponent();

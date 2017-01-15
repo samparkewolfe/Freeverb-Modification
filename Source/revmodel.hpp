@@ -22,6 +22,7 @@ Slider::Listener
     
 public:
     Slider tuningSlider;
+    Label sliderLabel;
     comb combL, combR;
     std::vector<float> bufcombL, bufcombR;
     
@@ -31,7 +32,7 @@ public:
     void sliderValueChanged(Slider* slider) override {};
     void resized() override;
     
-    void	setbuffers(int sizeL, int sizeR);
+    void	setbuffers(int size);
     void	mute();
     void	setdamp(float val);
     void	setfeedback(float val);
@@ -39,6 +40,8 @@ public:
     float    processRight(float val);
     
 };
+
+
 
 class stereoAllpass
 :
@@ -48,6 +51,7 @@ Slider::Listener
     
 public:
     Slider tuningSlider;
+    Label sliderLabel;
     allpass	allpassL, allpassR;
     std::vector<float> bufallpassL, bufallpassR;
     
@@ -57,7 +61,7 @@ public:
     void sliderValueChanged(Slider* slider) override {};
     void resized() override;
     
-    void	setbuffers(int sizeL, int sizeR);
+    void	setbuffers(int size);
     void	mute();
     void	setfeedback(float val);
     float    processLeft(float val);
@@ -90,6 +94,10 @@ public:
 			float	getwidth();
 			void	setmode(float value);
 			float	getmode();
+    
+    void resized() override;
+    
+    
 private:
 			void	update();
 private:
@@ -106,32 +114,19 @@ private:
 	// to remove the need for dynamic allocation
 	// with its subsequent error-checking messiness
 
-	// Allpass filters
-
-
-    static const int combtuning[16];
-    static const int allpasstuning[8];
-
-
-//	// Buffers for the allpasses
-//	float	bufallpassL1[allpasstuning[0]];
-//	float	bufallpassR1[allpasstuning[1]];
-//	float	bufallpassL2[allpasstuning[2]];
-//	float	bufallpassR2[allpasstuning[3]];
-//	float	bufallpassL3[allpasstuning[4]];
-//	float	bufallpassR3[allpasstuning[5]];
-//	float	bufallpassL4[allpasstuning[6]];
-//	float	bufallpassR4[allpasstuning[7]];
-    
+    static const int combtuning[8];
+    static const int allpasstuning[4];
     
     int     numcombs    = 8;
     int     numallpasses  = 4;
     
     // Comb filters
     std::vector<stereoComb*> combs;
+    // Allpass filters
     std::vector<stereoAllpass*> allpasses;
     
     
+    GroupComponent group;
 };
 
 #endif//_revmodel_

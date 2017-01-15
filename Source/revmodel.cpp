@@ -16,35 +16,22 @@
 int const revmodel::combtuning[] =
 {
     1116,
-    1116+stereospread,
     1188,
-    1188+stereospread,
     1277,
-    1277+stereospread,
     1356,
-    1356+stereospread,
     1422,
-    1422+stereospread,
     1491,
-    1491+stereospread,
     1557,
-    1557+stereospread,
     1617,
-    1617+stereospread
 };
 
 int const revmodel::allpasstuning[] =
 {
     556,
-    556+stereospread,
     441,
-    441+stereospread,
     341,
-    341+stereospread,
     225,
-    225+stereospread
 };
-
 
 
 //Double
@@ -55,6 +42,10 @@ stereoComb::stereoComb()
     tuningSlider.setSliderStyle(Slider::LinearBarVertical);
     tuningSlider.setRange(0.0, 1.0);
     tuningSlider.setValue(0.5);
+    
+    addAndMakeVisible(&sliderLabel);
+    sliderLabel.setText("Combfilter", dontSendNotification);
+    sliderLabel.attachToComponent(&tuningSlider, false);
 }
 
 stereoComb::stereoComb(const stereoComb& copy)
@@ -65,20 +56,20 @@ stereoComb::stereoComb(const stereoComb& copy)
     bufcombR = copy.bufcombR;
 }
 
-void stereoComb::setbuffers(int sizeL, int sizeR)
+void stereoComb::setbuffers(int size)
 {
-    for(int i = 0; i<sizeL; i++)
+    for(int i = 0; i<size; i++)
     {
         bufcombL.push_back(0.0f);
     }
     
-    for(int i = 0; i<sizeR; i++)
+    for(int i = 0; i<size+stereospread; i++)
     {
         bufcombR.push_back(0.0f);
     }
     
-    combL.setbuffer(bufcombL.data(),sizeL);
-    combR.setbuffer(bufcombR.data(),sizeR);
+    combL.setbuffer(bufcombL.data(),size);
+    combR.setbuffer(bufcombR.data(),size+stereospread);
 }
 
 void stereoComb::mute()
@@ -112,6 +103,7 @@ float stereoComb::processRight(float val)
 void stereoComb::resized()
 {
     Rectangle<int> area(getLocalBounds());
+    area.removeFromTop(20);
     area.reduce(10, 10);
     tuningSlider.setBounds(area);
 }
@@ -127,6 +119,10 @@ stereoAllpass::stereoAllpass()
     tuningSlider.setSliderStyle(Slider::LinearBarVertical);
     tuningSlider.setRange(0.0, 1.0);
     tuningSlider.setValue(0.5);
+    
+    addAndMakeVisible(&sliderLabel);
+    sliderLabel.setText("Allpass Filter", dontSendNotification);
+    sliderLabel.attachToComponent(&tuningSlider, false);
 }
 
 stereoAllpass::stereoAllpass(const stereoAllpass& copy)
@@ -137,21 +133,20 @@ stereoAllpass::stereoAllpass(const stereoAllpass& copy)
     bufallpassR = copy.bufallpassR;
 }
 
-void stereoAllpass::setbuffers(int sizeL, int sizeR)
+void stereoAllpass::setbuffers(int size)
 {
-    for(int i = 0; i<sizeL; i++)
+    for(int i = 0; i<size; i++)
     {
         bufallpassL.push_back(0.0f);
     }
     
-    for(int i = 0; i<sizeR; i++)
+    for(int i = 0; i<size+stereospread; i++)
     {
         bufallpassR.push_back(0.0f);
     }
     
-    allpassL.setbuffer(bufallpassL.data(),sizeL);
-    allpassR.setbuffer(bufallpassR.data(),sizeR);
-    std::cout << " Happened "<< std::endl;
+    allpassL.setbuffer(bufallpassL.data(),size);
+    allpassR.setbuffer(bufallpassR.data(),size+stereospread);
 }
 
 void stereoAllpass::mute()
@@ -179,6 +174,7 @@ float stereoAllpass::processRight(float val)
 void stereoAllpass::resized()
 {
     Rectangle<int> area(getLocalBounds());
+    area.removeFromTop(20);
     area.reduce(10, 10);
     tuningSlider.setBounds(area);
 }
@@ -188,20 +184,28 @@ void stereoAllpass::resized()
 
 revmodel::revmodel()
 {
+    
+    addAndMakeVisible(&group);
+    group.setText("Reverb Back End");
+    group.setColour(GroupComponent::outlineColourId, Colours::grey);
+    group.toFront(false);
+    
     // Tie the components to their buffers
     for(int i = 0; i<numcombs; i++)
     {
         //stereoComb c;
         combs.push_back(new stereoComb());
-        combs[i]->setbuffers(combtuning[i*2], combtuning[(i*2)+1]);
+        combs[i]->setbuffers(combtuning[i]);
+        addAndMakeVisible(combs[i]);
     }
     
     for(int i = 0; i<numallpasses; i++)
     {
         //stereoAllpass a;
         allpasses.push_back(new stereoAllpass());
-        allpasses[i]->setbuffers(allpasstuning[i*2], allpasstuning[(i*2)+1]);
+        allpasses[i]->setbuffers(allpasstuning[i]);
         allpasses[i]->setfeedback(0.5f);
+        addAndMakeVisible(allpasses[i]);
     }
     
 	setwet(initialwet);
@@ -372,5 +376,36 @@ float revmodel::getmode()
 		return 0;
 }
 
+void revmodel::resized()
+{
+    //add or minus combs
+    //Combs
+    //add or minus all passes
+    //Allpasses
+    //reset button
+    //Stereo spread
+    
+    Rectangle<int> area(getLocalBounds());
+    group.setBounds(area);
+    area.reduce(10, 10);
+    
+    
+    Rectangle<int> areaCombs(area);
+    areaCombs.removeFromBottom(area.getHeight()/2);
+    int sliderWidth = (areaCombs.getWidth()/numcombs) ;
+    for(int i = 0; i<numcombs; i++)
+    {
+        combs[i]->setBounds(areaCombs.removeFromLeft(sliderWidth));
+    }
+    
+    
+    Rectangle<int> areaAllpass(area);
+    areaAllpass.removeFromTop(area.getHeight()/2);
+    sliderWidth = (areaAllpass.getWidth()/numallpasses);
+    for(int i = 0; i<numallpasses; i++)
+    {
+        allpasses[i]->setBounds(areaAllpass.removeFromLeft(sliderWidth));
+    }
+}
 
 //ends
