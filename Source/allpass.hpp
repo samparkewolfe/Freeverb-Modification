@@ -17,6 +17,9 @@ public:
 			void	mute();
 			void	setfeedback(float val);
 			float	getfeedback();
+    
+    void setbufsize(const float& val);
+
 // private:
 	float	feedback;
 	float	*buffer;
@@ -29,6 +32,8 @@ public:
 
 inline float allpass::process(float input)
 {
+    if(bufidx>=bufsize) bufidx = 0;
+    
 	float output;
 	float bufout;
 	
@@ -38,8 +43,8 @@ inline float allpass::process(float input)
 	output = -input + bufout;
 	buffer[bufidx] = input + (bufout*feedback);
 
-	if(++bufidx>=bufsize) bufidx = 0;
-
+    bufidx++;
+    
 	return output;
 }
 

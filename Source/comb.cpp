@@ -45,6 +45,11 @@ float comb::getfeedback()
 	return feedback;
 }
 
+void comb::setbufsize(const float& val)
+{
+    bufsize = val;
+}
+
 
 
 

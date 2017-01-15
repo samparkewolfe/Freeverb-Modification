@@ -24,7 +24,7 @@ const float initialdry		= 0;
 const float initialwidth	= 1;
 const float initialmode		= 0;
 const float freezemode		= 0.5f;
-const int	stereospread	= 23;
+const int	stereospread	= 100;
 
 #endif//_tuning_
 

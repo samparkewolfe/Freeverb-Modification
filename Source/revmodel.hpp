@@ -25,6 +25,7 @@ public:
     Label sliderLabel;
     comb combL, combR;
     std::vector<float> bufcombL, bufcombR;
+    int thisstereoSpread;
     
     stereoComb();
     stereoComb(const stereoComb& copy);
@@ -38,6 +39,7 @@ public:
     void	setfeedback(float val);
     float    processLeft(float val);
     float    processRight(float val);
+    void    setStereoSpread(const int& val);
     
 };
 
@@ -54,6 +56,7 @@ public:
     Label sliderLabel;
     allpass	allpassL, allpassR;
     std::vector<float> bufallpassL, bufallpassR;
+    int thisstereoSpread;
     
     stereoAllpass();
     stereoAllpass(const stereoAllpass& copy);
@@ -66,6 +69,7 @@ public:
     void	setfeedback(float val);
     float    processLeft(float val);
     float    processRight(float val);
+    void    setStereoSpread(const int& val);
     
 };
 
@@ -75,7 +79,8 @@ public:
 
 class revmodel
 :
-public Component
+public Component,
+public Slider::Listener
 {
 public:
 					revmodel();
@@ -96,7 +101,10 @@ public:
 			float	getmode();
     
     void resized() override;
-    
+    void sliderValueChanged(Slider* slider) override
+    {
+        update();
+    }
     
 private:
 			void	update();
@@ -127,6 +135,8 @@ private:
     
     
     GroupComponent group;
+    Slider stereoSpreadSlider;
+    Label stereoSpreadSliderLabel;
 };
 
 #endif//_revmodel_

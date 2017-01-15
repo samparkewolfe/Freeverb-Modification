@@ -46,6 +46,8 @@ stereoComb::stereoComb()
     addAndMakeVisible(&sliderLabel);
     sliderLabel.setText("Combfilter", dontSendNotification);
     sliderLabel.attachToComponent(&tuningSlider, false);
+    
+    thisstereoSpread = 23;
 }
 
 stereoComb::stereoComb(const stereoComb& copy)
@@ -67,6 +69,9 @@ void stereoComb::setbuffers(int size)
     {
         bufcombR.push_back(0.0f);
     }
+    
+    tuningSlider.setRange(0, size);
+    tuningSlider.setValue(size);
     
     combL.setbuffer(bufcombL.data(),size);
     combR.setbuffer(bufcombR.data(),size+stereospread);
@@ -92,11 +97,13 @@ void stereoComb::setfeedback(float val)
 
 float stereoComb::processLeft(float val)
 {
+    combL.setbufsize(tuningSlider.getValue());
     return combL.process(val);
 }
 
 float stereoComb::processRight(float val)
 {
+    combR.setbufsize(tuningSlider.getValue()+thisstereoSpread);
     return combR.process(val);
 }
 
@@ -106,6 +113,11 @@ void stereoComb::resized()
     area.removeFromTop(20);
     area.reduce(10, 10);
     tuningSlider.setBounds(area);
+}
+
+void stereoComb::setStereoSpread(const int& val)
+{
+    thisstereoSpread = val;
 }
 
 
@@ -145,6 +157,9 @@ void stereoAllpass::setbuffers(int size)
         bufallpassR.push_back(0.0f);
     }
     
+    tuningSlider.setRange(0, size);
+    tuningSlider.setValue(size);
+    
     allpassL.setbuffer(bufallpassL.data(),size);
     allpassR.setbuffer(bufallpassR.data(),size+stereospread);
 }
@@ -163,11 +178,13 @@ void stereoAllpass::setfeedback(float val)
 
 float stereoAllpass::processLeft(float val)
 {
+    allpassL.setbufsize(tuningSlider.getValue());
     return allpassL.process(val);
 }
 
 float stereoAllpass::processRight(float val)
 {
+    allpassR.setbufsize(tuningSlider.getValue()+thisstereoSpread);
     return allpassR.process(val);
 }
 
@@ -177,6 +194,11 @@ void stereoAllpass::resized()
     area.removeFromTop(20);
     area.reduce(10, 10);
     tuningSlider.setBounds(area);
+}
+
+void stereoAllpass::setStereoSpread(const int& val)
+{
+    thisstereoSpread = val;
 }
 
 
@@ -207,6 +229,16 @@ revmodel::revmodel()
         allpasses[i]->setfeedback(0.5f);
         addAndMakeVisible(allpasses[i]);
     }
+    
+    addAndMakeVisible(&stereoSpreadSlider);
+    stereoSpreadSlider.addListener(this);
+    stereoSpreadSlider.setSliderStyle(Slider::LinearBarVertical);
+    stereoSpreadSlider.setRange(0, 100);
+    stereoSpreadSlider.setValue(23);
+    
+    addAndMakeVisible(&stereoSpreadSliderLabel);
+    stereoSpreadSliderLabel.setText("Stereo Spread", dontSendNotification);
+    stereoSpreadSliderLabel.attachToComponent(&stereoSpreadSlider, false);
     
 	setwet(initialwet);
 	setroomsize(initialroom);
@@ -301,6 +333,16 @@ void revmodel::update()
 	{
 		combs[i]->setdamp(damp1);
 	}
+    
+    for(i=0; i<numcombs; i++)
+    {
+        combs[i]->setStereoSpread(stereoSpreadSlider.getValue());
+    }
+    
+    for(i=0; i<numallpasses; i++)
+    {
+        combs[i]->setStereoSpread(stereoSpreadSlider.getValue());
+    }
 }
 
 // The following get/set functions are not inlined, because
@@ -382,6 +424,7 @@ void revmodel::resized()
     //Combs
     //add or minus all passes
     //Allpasses
+    
     //reset button
     //Stereo spread
     
@@ -389,6 +432,9 @@ void revmodel::resized()
     group.setBounds(area);
     area.reduce(10, 10);
     
+    Rectangle<int> areaextra(area.removeFromRight(area.getWidth()*0.1));
+    areaextra.removeFromTop(30);
+    stereoSpreadSlider.setBounds(areaextra);
     
     Rectangle<int> areaCombs(area);
     areaCombs.removeFromBottom(area.getHeight()/2);

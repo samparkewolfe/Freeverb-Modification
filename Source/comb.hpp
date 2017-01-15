@@ -22,6 +22,8 @@ public:
 			void	setfeedback(float val);
 			float	getfeedback();
     
+    void setbufsize(const float& val);
+    
 private:
 	float	feedback;
 	float	filterstore;
@@ -37,6 +39,10 @@ private:
 
 inline float comb::process(float input)
 {
+    
+    if(bufidx>=bufsize) bufidx = 0;
+    
+    
 	float output;
 
 	output = buffer[bufidx];
@@ -48,8 +54,8 @@ inline float comb::process(float input)
 
     buffer[bufidx] = input + (filterstore*feedback);
 
-	if(++bufidx>=bufsize) bufidx = 0;
-
+    bufidx++;
+    
 	return output;
 }
 

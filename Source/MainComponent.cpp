@@ -75,7 +75,7 @@ MainContentComponent::MainContentComponent()
     dryLabel.attachToComponent (&drySlider, false);
 
     addAndMakeVisible(&widthLabel);
-    widthLabel.setText("Width", dontSendNotification);
+    widthLabel.setText("Stereo Mix", dontSendNotification);
     widthLabel.attachToComponent (&widthSlider, false);
 
     
@@ -114,13 +114,13 @@ void MainContentComponent::resized()
 {
     
     Rectangle<int> areaModel(getLocalBounds());
-    areaModel.removeFromBottom(getHeight()/2);
+    areaModel.removeFromBottom(getHeight()/3);
     areaModel.reduce(10, 10);
     model.setBounds(areaModel);
     
     
     Rectangle<int> areaSliders(getLocalBounds());
-    areaSliders.removeFromTop(getHeight()/2);
+    areaSliders.removeFromTop(2*getHeight()/3);
     
     areaSliders.reduce(10, 10);
     group.setBounds(areaSliders);

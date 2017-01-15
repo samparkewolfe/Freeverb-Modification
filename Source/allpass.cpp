@@ -33,4 +33,9 @@ float allpass::getfeedback()
 	return feedback;
 }
 
+void allpass::setbufsize(const float& val)
+{
+    bufsize = val;
+}
+
 //ends
