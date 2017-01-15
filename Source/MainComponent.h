@@ -15,31 +15,27 @@
 #include "revmodel.hpp"
 
 
-//==============================================================================
-/*
- This component lives inside our window, and this is where you should put all
- your controls and content.
- */
 class MainContentComponent   : public AudioAppComponent,
 public Button::Listener,
 public Slider::Listener
 
 {
+    //This is the reverb class that does all the processing.
     revmodel model;
     
+    
+    //Here are all the Gui's for interfacing with the reverb class front end.
     ToggleButton modeToggle;    //Freeze Mode
     Slider roomSizeSlider,      //Room Size
     dampSlider,                 //Comb Dampening
     wetSlider,                  //Wet Mix
     drySlider,                  //Dry Mix
     widthSlider;                //Width
-    
     Label roomSizeLabel,
     dampLabel,
     wetLabel,
     dryLabel,
     widthLabel;
-    
     GroupComponent group;
     
 public:

@@ -13,7 +13,7 @@
 #include "JuceHeader.h"
 #include <array>
 
-
+//This class is a combination of two comb filters to get a stereo effect
 class stereoComb
 :
 public Component,
@@ -23,8 +23,11 @@ Slider::Listener
 public:
     Slider tuningSlider;
     Label sliderLabel;
+    //Left and right comb filters.
     comb combL, combR;
+    //These are the buffers that the comb filters write too.
     std::vector<float> bufcombL, bufcombR;
+    //The amount of stereo spread this will be variable unlike the "stereospread" variable which is constant and used to initialise bufcombR.
     int thisstereoSpread;
     
     stereoComb();
@@ -42,8 +45,6 @@ public:
     void    setStereoSpread(const int& val);
     
 };
-
-
 
 class stereoAllpass
 :
@@ -74,13 +75,11 @@ public:
 };
 
 
-
-
-
 class revmodel
 :
 public Component,
-public Slider::Listener
+public Slider::Listener,
+Button::Listener
 {
 public:
 					revmodel();
@@ -105,6 +104,13 @@ public:
     {
         update();
     }
+    void buttonClicked(Button* button) override
+    {
+        if(button == &originalParamsButton)
+            setOriginalParameters();
+    }
+    
+    void setOriginalParameters();
     
 private:
 			void	update();
@@ -118,10 +124,6 @@ private:
 	float	mode;
     int     index;
     
-	// The following are all declared inline 
-	// to remove the need for dynamic allocation
-	// with its subsequent error-checking messiness
-
     static const int combtuning[8];
     static const int allpasstuning[4];
     
@@ -133,10 +135,11 @@ private:
     // Allpass filters
     std::vector<stereoAllpass*> allpasses;
     
-    
     GroupComponent group;
     Slider stereoSpreadSlider;
     Label stereoSpreadSliderLabel;
+    TextButton originalParamsButton;
+    
 };
 
 #endif//_revmodel_

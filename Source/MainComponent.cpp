@@ -15,9 +15,10 @@ MainContentComponent::MainContentComponent()
     // specify the number of input and output channels that we want to open
     setAudioChannels (2, 2);
     
-    
+    //Add the gui of medel to this component.
     addAndMakeVisible(&model);
     
+    //Initialise all the other guis for front end.
     addAndMakeVisible(&group);
     group.setText("Reverb Front End");
     group.setColour(GroupComponent::outlineColourId, Colours::grey);
@@ -78,7 +79,6 @@ MainContentComponent::MainContentComponent()
     widthLabel.setText("Stereo Mix", dontSendNotification);
     widthLabel.attachToComponent (&widthSlider, false);
 
-    
 }
 
 
@@ -94,16 +94,15 @@ void MainContentComponent::prepareToPlay (int samplesPerBlockExpected, double sa
 
 void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
 {
+    //Send the buffers to the reveb unit.
     float** inputs = bufferToFill.buffer->getArrayOfWritePointers();
     float** outputs = bufferToFill.buffer->getArrayOfWritePointers();
     
     model.processreplace(inputs[0],inputs[1],outputs[0],outputs[1],bufferToFill.numSamples,1);
-    
 }
 
 void MainContentComponent::releaseResources()
 {
-
 }
 
 void MainContentComponent::paint (Graphics& g)
@@ -112,7 +111,7 @@ void MainContentComponent::paint (Graphics& g)
 
 void MainContentComponent::resized()
 {
-    
+    //Draw the guis.
     Rectangle<int> areaModel(getLocalBounds());
     areaModel.removeFromBottom(getHeight()/3);
     areaModel.reduce(10, 10);
@@ -145,11 +144,13 @@ void MainContentComponent::resized()
 
 void MainContentComponent::buttonClicked(juce::Button *button)
 {
+    //Updating the button.
     if(button == &modeToggle)   model.setmode(button->getToggleState());
 }
 
 void MainContentComponent::sliderValueChanged(juce::Slider *slider)
 {
+    //Updating the sliders.
     if(slider == & roomSizeSlider)  model.setroomsize(slider->getValue());
     if(slider == & dampSlider)      model.setdamp(slider->getValue());
     if(slider == & wetSlider)       model.setwet(slider->getValue());

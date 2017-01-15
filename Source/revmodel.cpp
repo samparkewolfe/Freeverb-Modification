@@ -12,7 +12,6 @@
 // they will probably be OK for 48KHz sample rate
 // but would need scaling for 96KHz (or other) sample rates.
 // The values were obtained by listening tests.
-
 int const revmodel::combtuning[] =
 {
     1116,
@@ -24,7 +23,6 @@ int const revmodel::combtuning[] =
     1557,
     1617,
 };
-
 int const revmodel::allpasstuning[] =
 {
     556,
@@ -34,7 +32,8 @@ int const revmodel::allpasstuning[] =
 };
 
 
-//Double
+
+//Stereo Comb Class
 stereoComb::stereoComb()
 {
     addAndMakeVisible(&tuningSlider);
@@ -122,8 +121,7 @@ void stereoComb::setStereoSpread(const int& val)
 
 
 
-
-
+//Stereo Allpass Class
 stereoAllpass::stereoAllpass()
 {
     addAndMakeVisible(&tuningSlider);
@@ -201,7 +199,21 @@ void stereoAllpass::setStereoSpread(const int& val)
     thisstereoSpread = val;
 }
 
-
+void revmodel::setOriginalParameters()
+{
+    // Tie the components to their buffers
+    for(int i = 0; i<numcombs; i++)
+    {
+        combs[i]->tuningSlider.setValue(combtuning[i]);
+    }
+    
+    for(int i = 0; i<numallpasses; i++)
+    {
+        allpasses[i]->tuningSlider.setValue(allpasstuning[i]);
+    }
+    
+    stereoSpreadSlider.setValue(23);
+}
 
 
 revmodel::revmodel()
@@ -215,20 +227,20 @@ revmodel::revmodel()
     // Tie the components to their buffers
     for(int i = 0; i<numcombs; i++)
     {
-        //stereoComb c;
         combs.push_back(new stereoComb());
-        combs[i]->setbuffers(combtuning[i]);
+        combs[i]->setbuffers(44100);
         addAndMakeVisible(combs[i]);
     }
     
     for(int i = 0; i<numallpasses; i++)
     {
-        //stereoAllpass a;
         allpasses.push_back(new stereoAllpass());
-        allpasses[i]->setbuffers(allpasstuning[i]);
+        allpasses[i]->setbuffers(44100);
         allpasses[i]->setfeedback(0.5f);
         addAndMakeVisible(allpasses[i]);
     }
+    
+    setOriginalParameters();
     
     addAndMakeVisible(&stereoSpreadSlider);
     stereoSpreadSlider.addListener(this);
@@ -239,6 +251,11 @@ revmodel::revmodel()
     addAndMakeVisible(&stereoSpreadSliderLabel);
     stereoSpreadSliderLabel.setText("Stereo Spread", dontSendNotification);
     stereoSpreadSliderLabel.attachToComponent(&stereoSpreadSlider, false);
+    
+    addAndMakeVisible(&originalParamsButton);
+    originalParamsButton.setButtonText("Reset");
+    originalParamsButton.addListener(this);
+    
     
 	setwet(initialwet);
 	setroomsize(initialroom);
@@ -420,19 +437,17 @@ float revmodel::getmode()
 
 void revmodel::resized()
 {
-    //add or minus combs
-    //Combs
-    //add or minus all passes
-    //Allpasses
-    
     //reset button
-    //Stereo spread
     
     Rectangle<int> area(getLocalBounds());
     group.setBounds(area);
     area.reduce(10, 10);
     
     Rectangle<int> areaextra(area.removeFromRight(area.getWidth()*0.1));
+    areaextra.reduce(10, 10);
+    areaextra.removeFromTop(10);
+    originalParamsButton.setBounds(areaextra.removeFromTop(areaextra.getHeight()*0.1));
+    areaextra.removeFromTop(20);
     areaextra.removeFromTop(30);
     stereoSpreadSlider.setBounds(areaextra);
     

@@ -26,6 +26,7 @@ const float initialmode		= 0;
 const float freezemode		= 0.5f;
 const int	stereospread	= 100;
 
+
 #endif//_tuning_
 
 //ends
