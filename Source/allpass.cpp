@@ -6,17 +6,20 @@
 
 #include "allpass.hpp"
 
+//All these functions are written by Jezar except set buffer size.
 allpass::allpass()
 {
 	bufidx = 0;
 }
 
-void allpass::setbuffer(float *buf, int size) 
+//Allocating what buffer to edit.
+void allpass::setbuffer(float *buf, int size)
 {
 	buffer = buf; 
 	bufsize = size;
 }
 
+//Making all values in the buffer 0.
 void allpass::mute()
 {
 	for (int i=0; i<bufsize; i++)

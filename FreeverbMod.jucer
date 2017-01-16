@@ -5,16 +5,14 @@
               jucerVersion="4.3.0">
   <MAINGROUP id="va2yDK" name="FreeverbMod">
     <GROUP id="{070C66E7-D1B3-6A3C-E0F5-29FA946B527C}" name="Source">
+      <FILE id="ec2P86" name="denormals.h" compile="0" resource="0" file="Source/denormals.h"/>
+      <FILE id="Sg9FXj" name="tuning.h" compile="0" resource="0" file="Source/tuning.h"/>
       <FILE id="g8E05j" name="allpass.cpp" compile="1" resource="0" file="Source/allpass.cpp"/>
       <FILE id="G4XY3j" name="allpass.hpp" compile="0" resource="0" file="Source/allpass.hpp"/>
       <FILE id="panhqk" name="comb.cpp" compile="1" resource="0" file="Source/comb.cpp"/>
       <FILE id="XJlMlR" name="comb.hpp" compile="0" resource="0" file="Source/comb.hpp"/>
-      <FILE id="ec2P86" name="denormals.h" compile="0" resource="0" file="Source/denormals.h"/>
-      <FILE id="Sg9FXj" name="tuning.h" compile="0" resource="0" file="Source/tuning.h"/>
       <FILE id="rcnq6I" name="revmodel.cpp" compile="1" resource="0" file="Source/revmodel.cpp"/>
       <FILE id="JzyiPv" name="revmodel.hpp" compile="0" resource="0" file="Source/revmodel.hpp"/>
-      <FILE id="erHLUI" name="revGui.cpp" compile="1" resource="0" file="Source/revGui.cpp"/>
-      <FILE id="zMxhym" name="revGui.h" compile="0" resource="0" file="Source/revGui.h"/>
       <FILE id="hWPKvj" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="GAmXW9" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>

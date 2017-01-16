@@ -8,6 +8,8 @@
 #ifndef _denormals_
 #define _denormals_
 
+//Jezar's function:
+//This function is called in the process function of the filters, I do not know what it does!
 #define undenormalise(sample) if(((*(unsigned int*)&sample)&0x7f800000)==0) sample=0.0f
 
 #endif//_denormals_

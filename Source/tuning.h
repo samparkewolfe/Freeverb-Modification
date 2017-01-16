@@ -7,7 +7,7 @@
 #ifndef _tuning_
 #define _tuning_
 
-
+//These are all Jezar's values for scaling gui inputs and what not.
 const int	constnumcombs   = 8;
 const int	constnumallpasses	= 4;
 const float	muted			= 0;

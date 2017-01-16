@@ -111,13 +111,13 @@ void MainContentComponent::paint (Graphics& g)
 
 void MainContentComponent::resized()
 {
-    //Draw the guis.
+    //Draw the back end of the reverb.
     Rectangle<int> areaModel(getLocalBounds());
     areaModel.removeFromBottom(getHeight()/3);
     areaModel.reduce(10, 10);
     model.setBounds(areaModel);
     
-    
+    //Draw the front end of the reverb.
     Rectangle<int> areaSliders(getLocalBounds());
     areaSliders.removeFromTop(2*getHeight()/3);
     
