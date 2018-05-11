@@ -2,7 +2,8 @@
 
 <JUCERPROJECT id="tTSTYJ" name="FreeverbMod" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.yourcompany.FreeverbMod" includeBinaryInAppConfig="1"
-              jucerVersion="4.3.0">
+              jucerVersion="5.2.0" displaySplashScreen="0" reportAppUsage="0"
+              splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="va2yDK" name="FreeverbMod">
     <GROUP id="{070C66E7-D1B3-6A3C-E0F5-29FA946B527C}" name="Source">
       <FILE id="ec2P86" name="denormals.h" compile="0" resource="0" file="Source/denormals.h"/>
@@ -22,24 +23,26 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="FreeverbMod"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="FreeverbMod"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="FreeverbMod"
+                       enablePluginBinaryCopyStep="1"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="FreeverbMod"
+                       enablePluginBinaryCopyStep="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_events" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_graphics" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_video" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_opengl" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../FreeverbTest/JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../FreeverbTest/JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_core" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_events" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_graphics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_cryptography" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_video" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_opengl" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
   </EXPORTFORMATS>

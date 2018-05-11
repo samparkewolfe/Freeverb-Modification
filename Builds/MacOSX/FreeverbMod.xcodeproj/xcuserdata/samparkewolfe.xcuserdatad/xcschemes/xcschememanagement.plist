@@ -4,18 +4,10 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>FreeverbMod (App).xcscheme</key>
+		<key>FreeverbMod - App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
-		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>FCF94A8487CC1E92A3394E24</key>
-		<dict>
-			<key>primary</key>
-			<true/>
 		</dict>
 	</dict>
 </dict>
